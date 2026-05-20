@@ -183,7 +183,7 @@ class RedBottonFragment : Fragment() {
     /*
      * Função para solicitar permissões Bluetooth
      */
-    @SuppressLint("MissingPermission")
+    @SuppressLint( "MissingPermission")
     private val scanCallback = object : ScanCallback() {
         override fun onScanResult(callbackType: Int, result: ScanResult) {
             val device = result.device
