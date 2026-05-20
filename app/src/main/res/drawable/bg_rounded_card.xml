@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Cor cinza super suave do teu design moderno -->
+    <solid android:color="#EDEDF2" />
+
+    <!-- Cantos muito arredondados característicos de interfaces mobile modernas -->
+    <corners android:radius="24dp" />
+</shape>
