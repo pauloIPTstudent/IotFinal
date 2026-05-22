@@ -5,28 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.constraintlayout.widget.ConstraintLayout
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [DevicesFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class DevicesFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -37,23 +22,19 @@ class DevicesFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_devices, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DevicesFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DevicesFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val scanManager = BluetoothScanManager.getInstance(requireContext())
+        val popupConnect = view.findViewById<ConstraintLayout>(R.id.popup_concect)
+        val update_card = view.findViewById<ConstraintLayout>(R.id.update_card)
+        // 1. Encontra de forma segura o botão "Conectar" dentro do Card de Status superior
+        if(scanManager.isGattConnected()){
+            popupConnect.visibility = View.GONE
+            update_card.visibility = View.VISIBLE
+        }
+        else{
+            popupConnect.visibility = View.VISIBLE
+            update_card.visibility = View.GONE
+        }
     }
 }

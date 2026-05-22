@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
         val targetFragment: Fragment = when (selectedId) {
             R.id.layout_nav_home -> RedBottonFragment()
             R.id.layout_nav_devices -> DevicesFragment()
-            //R.id.layout_nav_history -> HistoryFragment()
+            R.id.layout_nav_history -> MapFragment()
             else -> RedBottonFragment()
         }
 

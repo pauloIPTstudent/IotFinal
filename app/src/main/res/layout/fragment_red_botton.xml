@@ -98,7 +98,6 @@
             android:elevation="12dp"
             android:clickable="true"
             android:focusable="true"
-            android:layout_marginTop="128dp"
             android:foreground="?android:attr/selectableItemBackgroundBorderless"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/txt_instrucao"
@@ -152,84 +151,10 @@
             android:gravity="center"
             android:lineSpacingMultiplier="1.2"
             app:layout_constraintTop_toBottomOf="@id/btn_pedir_ajuda"
-            app:layout_constraintBottom_toTopOf="@id/layout_actions"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Área de Botões de Ação Rápida (Simular Queda e Onde Estou) -->
-        <LinearLayout
-            android:id="@+id/layout_actions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/txt_instrucao"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
 
-            <!-- AÇÃO 1: Simular Queda -->
-            <LinearLayout
-                android:id="@+id/btn_simular_queda"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_weight="1"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/bg_rounded_card"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground">
-
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/ic_warnning"
-                    app:tint="#1D2786" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Simular Queda"
-                    android:textColor="#1F2226"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:fontFamily="sans-serif-medium" />
-            </LinearLayout>
-
-            <!-- AÇÃO 2: Onde estou? -->
-            <LinearLayout
-                android:id="@+id/btn_onde_estou"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_weight="1"
-                android:layout_marginStart="10dp"
-                android:background="@drawable/bg_rounded_card"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground">
-
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/ic_pin"
-                    app:tint="#1D2786" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Onde estou?"
-                    android:textColor="#1F2226"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:fontFamily="sans-serif-medium" />
-            </LinearLayout>
-
-        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout></FrameLayout>

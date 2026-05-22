@@ -110,7 +110,7 @@
                 android:id="@+id/img_nav_history"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_book"
+                android:src="@drawable/ic_pin"
                 app:tint="#7A7A7A" />
 
             <TextView
@@ -118,7 +118,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Histórico"
+                android:text="Localização"
                 android:textSize="12sp"
                 android:textColor="#7A7A7A"
                 android:fontFamily="sans-serif-medium" />
