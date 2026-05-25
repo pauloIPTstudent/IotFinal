@@ -11,11 +11,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import android.os.CountDownTimer
+import android.util.Log
+import android.view.View
+import android.widget.Button
+import android.widget.ProgressBar
+class MainActivity : AppCompatActivity() , BluetoothScanManager.OnQuedaDetectadaListener {
 
-class MainActivity : AppCompatActivity() {
+
     // Estrutura para mapear e gerir de forma limpa as views de cada aba
     private lateinit var navItems: Map<Int, NavigationItem>
-
+    private lateinit var bleManager: BluetoothScanManager
+    private var countDownTimer: CountDownTimer? = null
+    private var viewAlertaQueda: View? = null
     // Cores da Paleta Extraídas Diretamente do Teu Protótipo Visual
     private val colorActive = Color.parseColor("#1D2786")   // Azul Escuro/Índigo (Ativo)
     private val colorInactive = Color.parseColor("#7A7A7A") // Cinza Neutro (Inativo)
@@ -31,6 +39,75 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             navigateToTab(R.id.layout_nav_home)
         }
+        bleManager = BluetoothScanManager.getInstance(this)
+
+        // Inicializa a referência do layout embutido
+        viewAlertaQueda = findViewById(R.id.layoutAlertaQueda)
+
+        // Configura os botões da tela de queda
+        viewAlertaQueda?.findViewById<Button>(R.id.btnFalsoPositivo)?.setOnClickListener {
+            cancelarAlertaQueda()
+        }
+
+        viewAlertaQueda?.findViewById<Button>(R.id.btnAjuda)?.setOnClickListener {
+            dispararProtocoloEmergencia()
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Indica ao Singleton que a MainActivity está ativa e quer ouvir os alertas de queda
+        bleManager.setOnQuedaDetectadaListener(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        // IMPORTANTE: Remove a referência da atividade do Singleton para evitar Memory Leak
+        bleManager.setOnQuedaDetectadaListener(null)
+    }
+
+    // IMPLEMENTAÇÃO DA INTERFACE
+    override fun onQuedaDetectada() {
+        // Como o callback do BLE corre numa thread secundária, forçamos a execução na Main Thread
+        runOnUiThread {
+            exibirTelaQueda()
+        }
+    }
+
+
+    // FUNÇÃO QUE ATIVA A TELA E O CONTADOR
+    fun exibirTelaQueda() {
+        runOnUiThread {
+            if (viewAlertaQueda?.visibility == View.VISIBLE) return@runOnUiThread
+
+            viewAlertaQueda?.visibility = View.VISIBLE
+            val txtContador = viewAlertaQueda?.findViewById<TextView>(R.id.txtContador)
+
+            countDownTimer = object : CountDownTimer(5000, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    val segundosRestantes = Math.round(millisUntilFinished.toDouble() / 1000).toInt()
+                    txtContador?.text = segundosRestantes.toString()
+                }
+
+                override fun onFinish() {
+                    txtContador?.text = "0"
+                    dispararProtocoloEmergencia()
+                }
+            }.start()
+        }
+    }
+
+    private fun cancelarAlertaQueda() {
+        countDownTimer?.cancel()
+        viewAlertaQueda?.visibility = View.GONE
+        Log.i("QUEDA", "Alerta cancelado pelo utilizador (Falso positivo).")
+    }
+
+    private fun dispararProtocoloEmergencia() {
+        countDownTimer?.cancel()
+        viewAlertaQueda?.visibility = View.GONE
+        Log.e("QUEDA", "🚨 EMERGÊNCIA DISPARADA! O tempo acabou ou o usuário pediu ajuda.")
+        // TODO: Enviar SMS, fazer chamada ou disparar API web aqui
     }
 
     /**
@@ -108,4 +185,10 @@ class MainActivity : AppCompatActivity() {
         val icon: ImageView,
         val text: TextView
     )
+    override fun onResume() {
+        super.onResume()
+        // Sempre que o usuário abrir o app (ou voltar para ele),
+        // tentamos puxar a conexão em background se houver um dispositivo salvo.
+        //bleManager.tryAutoConnect()
+    }
 }

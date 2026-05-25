@@ -58,11 +58,16 @@ class RedBottonFragment : Fragment() {
 
         // 1. Encontra de forma segura o botão "Conectar" dentro do Card de Status superior
         val btnConectar = view.findViewById<Button>(R.id.btn_connect_device)
+        val btn_pedir_ajuda = view.findViewById<androidx.constraintlayout.widget.ConstraintLayout>(R.id.btn_pedir_ajuda)
+
         val scanManager = BluetoothScanManager.getInstance(requireContext())
         // 2. Garante que o botão existe no layout antes de definir o evento de clique
 
         btnConectar?.setOnClickListener {
             showDiscoverDevicesDialog(scanManager);
+        }
+
+        btn_pedir_ajuda?.setOnClickListener{
         }
     }
 
